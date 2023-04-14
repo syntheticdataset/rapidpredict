@@ -6,6 +6,10 @@ import pandas as pd
 import datetime
 import time
 import warnings
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import seaborn as sns
 
 from tqdm import tqdm
 from sklearn.pipeline import Pipeline
@@ -86,6 +90,9 @@ categorical_transformer_high = Pipeline(
 
 # Helper function
 
+##################################################################
+##                    Helper function                           ##
+##################################################################
 
 def get_card_split(df, cols, n=11):
     """
@@ -111,6 +118,9 @@ def get_card_split(df, cols, n=11):
     return card_low, card_high
 
 
+##################################################################
+##                    Class rapidclassifier                     ##
+##################################################################
 
 class rapidclassifier:
 
@@ -383,19 +393,181 @@ class rapidclassifier:
         # compare_model_(results , names)
         return scores, predictions_df  if self.predictions is True else scores
     
-    def generate_colors(self, n):
-        colors = cl.scales[str(min(n, 12))]['qual']['Paired']
-        while len(colors) < n:
-            colors += colors
-        return colors[:n]
-
-
-        fig = go.Figure(data=data, layout=layout)
-        fig.show()
-
     def provide_models(self, X_train, X_test, y_train, y_test):
 
         if len(self.models.keys()) == 0:
             self.fit(X_train, X_test, y_train, y_test) 
 
         return self.models
+    
+
+##################################################################
+##                    Class plot_target                         ##
+##################################################################
+
+class plot_target:
+    def __init__(self, dataset, target="target"):
+        self.dataset = dataset
+        self.target = target
+        self.plot()
+
+    def plot(self):
+        # Create a DataFrame containing the target column
+        target_df = pd.DataFrame({self.target: self.dataset})
+        counts = target_df[self.target].value_counts()
+
+        # Create a subplot with 1 row and 2 columns
+        fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+        # Create the countplot in the first subplot
+        sns.countplot(x=self.target, data=target_df, ax=ax[0])
+        ax[0].set_title("Target Distribution (Countplot)")
+        ax[0].set_xlabel("Target")
+        ax[0].set_ylabel("Count")
+
+        # Create the pie chart in the second subplot
+        ax[1].pie(counts, labels=counts.index, autopct='%1.1f%%', startangle=90)
+        ax[1].set_title("Target Distribution (Pie Chart)")
+        ax[1].axis('equal')  # Equal aspect ratio ensures the pie chart is circular
+
+        plt.show()
+
+    def __repr__(self):
+        return ''
+    
+
+
+
+
+##################################################################
+##                  class compareModels_bargraph                ##                    
+##################################################################
+
+
+class compareModels_bargraph:
+    def __init__(self, model_names, model_metrics_flscore):
+        self.model_names = model_names.to_list()
+        self.model_metrics_flscore = model_metrics_flscore.to_list()
+        self.df = pd.DataFrame({'Model': self.model_names, 'F1 Score': self.model_metrics_flscore})
+        self.plot()
+
+    def plot(self):
+        df_sorted = self.df.sort_values('F1 Score', ascending=True)
+
+        fig, ax = plt.subplots(figsize=(16, 8))
+
+        # Generate an array of 26 different colors using a colormap
+        colormap = plt.cm.get_cmap("tab20", 26)
+        colors = colormap(np.arange(26))
+
+        # Pass the colors array to the barh function
+        bars = ax.barh(df_sorted['F1 Score'], df_sorted['Model'], color=colors)
+
+        ax.set_title('Model F1 Score')
+        ax.set_xlabel('F1 Score')
+        ax.set_ylabel('Model')
+
+        ax.invert_yaxis()
+             # Add model accuracies at the end of each bar
+        for i, bar in enumerate(bars):
+            width = bar.get_width()
+            label = f'{width:.2f}'
+            ax.text(width, bar.get_y() + bar.get_height() / 2, label, ha='left', va='center')
+
+
+        plt.show()
+        def __repr__(self):
+        # Return an empty string or a custom message
+            return ''
+
+
+
+
+
+
+##################################################################
+##                  class compareModels_boxplot                 ##                    
+##################################################################
+
+class compareModels_boxplot:
+    def __init__(self, model_names, model_metrics_flscore):
+        self.model_names = model_names.to_list()
+        self.model_metrics_flscore = model_metrics_flscore.to_list()
+        self.df = pd.DataFrame({'Model': self.model_names, 'F1 Score': self.model_metrics_flscore})
+        self.plot()
+
+    def plot(self):
+        df_sorted = self.df.sort_values('F1 Score', ascending=True)
+
+        fig, ax =plt.subplots(figsize=(10, 4)) 
+
+        # Generate an array of 26 different colors using a colormap
+        colormap = plt.cm.get_cmap("tab20", 26)
+        colors = colormap(np.arange(26))
+
+        # Create a custom boxplot with seaborn
+        sns.boxplot(x='F1 Score', y='Model', data=df_sorted, palette=colors[:len(self.model_names)], ax=ax )
+
+        ax.set_title('Model F1 Scores')
+        ax.set_xlabel('F1 Score')
+        ax.set_ylabel('Model')
+        ax.xaxis.set_tick_params(rotation=90)
+
+        #     # Add model accuracies close to the model names
+        # for i, row in df_sorted.iterrows():
+        #     ax.text(row['F1 Score'] + 0.005, i, f"{row['F1 Score']:.3f}", va='center')
+
+
+        plt.show()
+        def __repr__(self):
+        # Return an empty string or a custom message
+            return ''
+
+
+
+# import matplotlib.pyplot as plt
+# import pandas as pd
+# import numpy as np
+# import seaborn as sns
+
+# class CompareModel_boxplot:
+#     def __init__(self, model_names, model_accuracies):
+#         self.model_names = model_names.to_list()
+#         self.model_accuracies = model_accuracies.to_list()
+#         self.df = pd.DataFrame({'Model': self.model_names, 'F1 Score': self.model_accuracies})
+#         self.plot()
+
+#     def plot(self):
+#         self.df['F1 Score'] = pd.to_numeric(self.df['F1 Score'])  # Convert F1 Score column to numeric data type
+
+#         df_sorted = self.df.sort_values('F1 Score', ascending=True)
+#         best_f1 = df_sorted['F1 Score'].max()
+#         best_model_idx = df_sorted['F1 Score'].idxmax()
+#         best_model = df_sorted.loc[best_model_idx]['Model']
+
+#         fig, ax = plt.subplots(figsize=(12, 6))  # Increase the figure size
+
+#         # Generate an array of 26 different colors using a colormap
+#         colormap = plt.cm.get_cmap("tab20", 26)
+#         colors = colormap(np.arange(26))
+
+#         # Create a custom boxplot with seaborn
+#         sns.boxplot(x='F1 Score', y='Model', data=df_sorted, palette=colors[:len(self.model_names)], ax=ax)
+
+#         ax.set_title('Model Accuracies')
+#         ax.set_xlabel('F1 Score')
+#         ax.set_ylabel('Model')
+
+#         # Rotate the xtick labels by 90 degrees
+#         ax.set_xticklabels(ax.get_xticks(), rotation=90)
+
+#         # Add accuracies to the plot
+#         for i, row in df_sorted.iterrows():
+#             ax.text(row['F1 Score'], i, f"{row['F1 Score']:.2f}", color='black', ha="left", va="center")
+
+#         # Mention the best result
+#         ax.text(0.98, 0.02, f"Best result: {best_model} ({best_f1:.2f})", transform=ax.transAxes, ha="right", va="bottom", fontsize=12)
+
+#         plt.show()
+
+

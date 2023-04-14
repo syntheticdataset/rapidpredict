@@ -1,6 +1,29 @@
 ---
 title: History of rapidpredict step by step
 ---
+
+# Update: 0.0.0.7 (04-10-2023)
+
+ - Add boxplot to the present models and compare models for f1 score
+ - Add bargraph to the present models and compare models for f1 score 
+ - Add pie chart and bar chart to the present data target 
+
+
+# Update: 0.0.0.6 (04-10-2023)
+
+ - Add boxplot to the present models and compare models for f1 score
+ - Add bargraph to the present models and compare models for f1 score 
+ - remove <rapidpredict.supervised.CompareModel_bargraph at 0x7f5d38cea220> error
+
+
+
+
+# Update: 0.0.0.5 (04-10-2023)
+
+ - Add boxplot to the present models and compare models for f1 score
+ - Add bargraph to the present models and compare models for f1 score
+
+
 # Update: 0.0.0.4 (04-10-2023)
 
 - Remove plotly from present models. We will add it in future.
