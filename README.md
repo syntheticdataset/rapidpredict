@@ -20,18 +20,18 @@ To use Rapid Predict in a project:
 
 Example :
 
-    from rapidpredict import classification as rp
-    from sklearn.datasets import load_breast_cancer
+    from rapidpredict.supervised import *
     from sklearn.model_selection import train_test_split
-
+    from sklearn.datasets import load_breast_cancer
     data = load_breast_cancer()
     X = data.data
     y= data.target
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=.5,random_state =123)
+    X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=.25,random_state =123)
 
-    clf = rp(verbose=0,ignore_warnings=True, custom_metric=None)
-    models,predictions = clf.fit(X_train, X_test, y_train, y_test)
+
+    clf = rapidclassifier(verbose= 0,ignore_warnings=True, custom_metric=None)
+    models , predictions = clf.fit(X_train, X_test, y_train, y_test)
 
 
 
@@ -63,6 +63,34 @@ Example :
     | GaussianNB                    | 0.97 | 0.95 | 0.95 | 0.97 | 0.97 | 0.96 | 0.94 | 0.08 |
     | ExtraTreeClassifier           | 0.94 | 0.94 | 0.94 | 0.94 | 0.94 | 0.94 | 0.93 | 0.08 |
     | DummyClassifier               | 0.62 | 0.50 | 0.50 | 0.62 | 0.39 | 0.48 | 0.77 | 0.08 |
+
+
+
+## Plot Target values
+
+    plot_target(y)
+
+![plot target](./image/plot_target.png)
+
+
+
+## Comparing models suing bar graph
+ 
+  compareModels_bargraph(predictions["F1 Score"] ,models.index)
+ 
+
+![](./image/compareModels_bargraph.png)  
+
+
+## Comparing models suing box plot
+ 
+    compareModels_boxplot(predictions["F1 Score"] ,models.index)
+
+
+![](./image/compareModels_boxplot.png)
+
+
+    
 
 
 
