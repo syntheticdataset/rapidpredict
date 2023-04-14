@@ -454,7 +454,7 @@ class compareModels_bargraph:
     def plot(self):
         df_sorted = self.df.sort_values('F1 Score', ascending=True)
 
-        fig, ax = plt.subplots(figsize=(16, 8))
+        fig, ax = plt.subplots(figsize=(14, 7))
 
         # Generate an array of 26 different colors using a colormap
         colormap = plt.cm.get_cmap("tab20", 26)
@@ -499,7 +499,7 @@ class compareModels_boxplot:
     def plot(self):
         df_sorted = self.df.sort_values('F1 Score', ascending=True)
 
-        fig, ax =plt.subplots(figsize=(10, 4)) 
+        fig, ax =plt.subplots(figsize=(14, 7)) 
 
         # Generate an array of 26 different colors using a colormap
         colormap = plt.cm.get_cmap("tab20", 26)
@@ -523,51 +523,31 @@ class compareModels_boxplot:
         # Return an empty string or a custom message
             return ''
 
+##################################################################
+class heatmap:
+    def __init__(self, X, y):
+        self.X = X
+        self.y = y
+        self.plot_heatmap()
 
+    def plot_heatmap(self):
+        df = pd.DataFrame(self.X)
+        corr_matrix = df.corr()
 
-# import matplotlib.pyplot as plt
-# import pandas as pd
-# import numpy as np
-# import seaborn as sns
-
-# class CompareModel_boxplot:
-#     def __init__(self, model_names, model_accuracies):
-#         self.model_names = model_names.to_list()
-#         self.model_accuracies = model_accuracies.to_list()
-#         self.df = pd.DataFrame({'Model': self.model_names, 'F1 Score': self.model_accuracies})
-#         self.plot()
-
-#     def plot(self):
-#         self.df['F1 Score'] = pd.to_numeric(self.df['F1 Score'])  # Convert F1 Score column to numeric data type
-
-#         df_sorted = self.df.sort_values('F1 Score', ascending=True)
-#         best_f1 = df_sorted['F1 Score'].max()
-#         best_model_idx = df_sorted['F1 Score'].idxmax()
-#         best_model = df_sorted.loc[best_model_idx]['Model']
-
-#         fig, ax = plt.subplots(figsize=(12, 6))  # Increase the figure size
-
-#         # Generate an array of 26 different colors using a colormap
-#         colormap = plt.cm.get_cmap("tab20", 26)
-#         colors = colormap(np.arange(26))
-
-#         # Create a custom boxplot with seaborn
-#         sns.boxplot(x='F1 Score', y='Model', data=df_sorted, palette=colors[:len(self.model_names)], ax=ax)
-
-#         ax.set_title('Model Accuracies')
-#         ax.set_xlabel('F1 Score')
-#         ax.set_ylabel('Model')
-
-#         # Rotate the xtick labels by 90 degrees
-#         ax.set_xticklabels(ax.get_xticks(), rotation=90)
-
-#         # Add accuracies to the plot
-#         for i, row in df_sorted.iterrows():
-#             ax.text(row['F1 Score'], i, f"{row['F1 Score']:.2f}", color='black', ha="left", va="center")
-
-#         # Mention the best result
-#         ax.text(0.98, 0.02, f"Best result: {best_model} ({best_f1:.2f})", transform=ax.transAxes, ha="right", va="bottom", fontsize=12)
-
-#         plt.show()
-
+        # Create a mask for the upper triangle
+        mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+        w =20
+        h = 20
+        plt.figure(figsize=( w, h))
+        sns.heatmap(
+            corr_matrix,
+            annot=True,
+            cmap="coolwarm",
+            linewidths=0.5,
+            square=True,
+            cbar_kws={"shrink": 0.5},
+            mask=mask  # Apply the mask to display only the lower triangle
+        )
+        plt.title("Half Heatmap of Pearson Correlations")
+        plt.show()
 

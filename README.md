@@ -8,6 +8,11 @@ To install Rapid Predict from PyPI:
 
     pip install rapidpredict
 
+    pip install -U rapidpredict
+
+
+    
+
 # Usage
 
 To use Rapid Predict in a project:
@@ -70,24 +75,24 @@ Example :
 
     plot_target(y)
 
-![plot target](./image/plot_target.png)
+![plot target](https://raw.githubusercontent.com/syntheticdataset/rapidpredict/main/image/plot_target.png)
 
 
 
-## Comparing models suing bar graph
+## Comparing models using bar graph
  
   compareModels_bargraph(predictions["F1 Score"] ,models.index)
  
 
-![](./image/compareModels_bargraph.png)  
+![Comparing models using bar graph](https://raw.githubusercontent.com/syntheticdataset/rapidpredict/main/image/compareModels_bargraph.png)  
 
 
-## Comparing models suing box plot
+## Comparing models using box plot
  
     compareModels_boxplot(predictions["F1 Score"] ,models.index)
 
 
-![](./image/compareModels_boxplot.png)
+![Comparing models using box plot](https://raw.githubusercontent.com/syntheticdataset/rapidpredict/main/image/compareModels_boxplot.png)
 
 
     

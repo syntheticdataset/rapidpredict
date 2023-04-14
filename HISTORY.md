@@ -2,6 +2,14 @@
 title: History of rapidpredict step by step
 ---
 
+# Update: 0.0.0.9 (04-11-2023)
+
+ - Update code and add heatmap to code
+
+# Update: 0.0.0.8 (04-11-2023)
+
+ - Update the documentation and code
+
 # Update: 0.0.0.7 (04-10-2023)
 
  - Add boxplot to the present models and compare models for f1 score

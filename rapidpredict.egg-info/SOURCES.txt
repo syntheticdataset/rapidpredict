@@ -1,0 +1,9 @@
+README.md
+setup.py
+rapidpredict/__init__.py
+rapidpredict/supervised.py
+rapidpredict.egg-info/PKG-INFO
+rapidpredict.egg-info/SOURCES.txt
+rapidpredict.egg-info/dependency_links.txt
+rapidpredict.egg-info/requires.txt
+rapidpredict.egg-info/top_level.txt
